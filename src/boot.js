@@ -69,7 +69,7 @@ module.exports = class Boot {
 
 
         //Setup the server port
-        var port = 3000;
+        var port = process.env.PORT || 3000;
 
         //Are there any errors?
         if (errors.length > 0) {
@@ -79,15 +79,15 @@ module.exports = class Boot {
 
         io.on('connection',function(socket){
           console.log("A user is connected");
-          socket.on('status added',function(status){
-            add_status(status,function(res){
-              if(res){
-                io.emit('refresh feed',status);
-              } else {
-                io.emit('error');
-              }
-            });
-          });
+          // socket.on('status added',function(status){
+          //   add_status(status,function(res){
+          //     if(res){
+          //       io.emit('refresh feed',status);
+          //     } else {
+          //       io.emit('error');
+          //     }
+          //   });
+          // });
         });
 
         var add_status = function (status,callback) {
