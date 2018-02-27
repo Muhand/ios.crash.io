@@ -8,7 +8,7 @@
   "scripts": {
     "start": "nodemon -w src",
     "heroku-prestart": "yarn global add pm2 && pm2 install pm2-logrotate",
-    "heroku-start": "pm2 start src --attach",
+    "heroku-start": "pm2 start src --attach"
   },
   "dependencies": {
     "async": "^2.6.0",
