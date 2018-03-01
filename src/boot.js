@@ -1,11 +1,26 @@
 //Import Modules
 const http = require('http');
+// const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes =  require('./routes');
 const jobs = require('./jobs');
-const io = require("socket.io")(http);
+// const io = require("socket.io")(express.server);
+const sck = require('./sck');
 const models = require('./models/index');
+const fs = require('fs');
+
+//Certificates
+var key = fs.readFileSync('encryption/private.key');
+var cert = fs.readFileSync( 'encryption/sockets.io.crt' );
+var ca = fs.readFileSync( 'encryption/intermediate.crt' );
+
+var options = {
+  key: key,
+  cert: cert,
+  ca: ca
+};
+
 
 //Global variables
 var initialized = false;
@@ -63,9 +78,9 @@ module.exports = class Boot {
         app.use(routes);
 
         // catch 401 and forward to error handler
-        app.use( (req, res) => {
-          jobs.response(res, 401, {error:"Forbidden"});
-        });
+        // app.use( (req, res) => {
+        //   jobs.response(res, 401, {error:"Forbidden"});
+        // });
 
 
         //Setup the server port
@@ -76,19 +91,30 @@ module.exports = class Boot {
           //If yes then reject
           reject(errors);
         }
-
-        io.on('connection',function(socket){
-          console.log("A user is connected");
-          // socket.on('status added',function(status){
-          //   add_status(status,function(res){
-          //     if(res){
-          //       io.emit('refresh feed',status);
-          //     } else {
-          //       io.emit('error');
-          //     }
-          //   });
-          // });
-        });
+        sck(express, app)
+        // io.listen(app.server);
+        //
+        // io.on('connection',function(socket){
+        //   console.log("A user is connected");
+        //   socket.on('status added',function(status){
+        //     add_status(status,function(res){
+        //       if(res){
+        //         io.emit('refresh feed',status);
+        //       } else {
+        //         io.emit('error');
+        //       }
+        //     });
+        //   });
+        //
+        //   socket.on('new_message', function(msg){
+        //     console.log(`Recieved message ${msg}`);
+        //     socket.emit('incoming_message', `${msg}`);
+        //   });
+        //
+        //   socket.on('disconnect',function(status){
+        //     console.log(`A user is disconnected`);
+        //   });
+        // });
 
         var add_status = function (status,callback) {
           var new_status = new models.Status();
@@ -111,6 +137,22 @@ module.exports = class Boot {
             errors.push(new Error(err));
             reject(errors);
           } else {
+            // io.listen(app.server);
+            //
+            // io.on('connection',function(socket){
+            //   console.log("A user is connected");
+            //   // socket.on('status added',function(status){
+            //   //   add_status(status,function(res){
+            //   //     if(res){
+            //   //       io.emit('refresh feed',status);
+            //   //     } else {
+            //   //       io.emit('error');
+            //   //     }
+            //   //   });
+            //   // });
+            // });
+
+
             resolve(app);
           }
         });
