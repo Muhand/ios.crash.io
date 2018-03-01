@@ -11,15 +11,15 @@ const models = require('./models/index');
 const fs = require('fs');
 
 //Certificates
-var key = fs.readFileSync('encryption/private.key');
-var cert = fs.readFileSync( 'encryption/sockets.io.crt' );
-var ca = fs.readFileSync( 'encryption/intermediate.crt' );
-
-var options = {
-  key: key,
-  cert: cert,
-  ca: ca
-};
+// var key = fs.readFileSync('encryption/private.key');
+// var cert = fs.readFileSync( 'encryption/sockets.io.crt' );
+// var ca = fs.readFileSync( 'encryption/intermediate.crt' );
+//
+// var options = {
+//   key: key,
+//   cert: cert,
+//   ca: ca
+// };
 
 
 //Global variables
