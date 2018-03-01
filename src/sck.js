@@ -1,4 +1,5 @@
 var currentSockets = [];
+var currentRooms = {}
 
 module.exports = function(express, app){
   const io = require("socket.io")(express.server);
@@ -11,15 +12,9 @@ module.exports = function(express, app){
     // console.log(`--------------------`);
     currentSockets.push(socket);
 
-    // socket.on('status added',function(status){
-    //   add_status(status,function(res){
-    //     if(res){
-    //       io.emit('refresh feed',status);
-    //     } else {
-    //       io.emit('error');
-    //     }
-    //   });
-    // });
+    socket.on('new_room', function(name){
+
+    });
 
     socket.on('new_member', function(name){
       currentSockets.forEach(user=>{
@@ -64,5 +59,6 @@ module.exports = function(express, app){
 
       console.log(`A user is disconnected`);
     });
+
   });
 }
