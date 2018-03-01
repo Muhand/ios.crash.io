@@ -1,5 +1,13 @@
+const hat = require('hat');
 var currentSockets = [];
-var currentRooms = {}
+var currentRooms = {
+  test:{
+    id:"123",
+    name:"room1",
+    members:["1","2"]
+  }
+
+}
 
 module.exports = function(express, app){
   const io = require("socket.io")(express.server);
@@ -12,7 +20,7 @@ module.exports = function(express, app){
     // console.log(`--------------------`);
     currentSockets.push(socket);
 
-    socket.on('new_room', function(name){
+    socket.on('new_room', function(name, currentUserName){
 
     });
 
