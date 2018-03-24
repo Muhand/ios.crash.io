@@ -90,8 +90,9 @@ module.exports = function(express, app){
       // })
     });
 
-    socket.on('disconnect',function(socket){
+    socket.on('disconnect',function(){
       var index = currentSockets.indexOf(socket);
+
       if (index > -1) {
         currentSockets.splice(index, 1);
         console.log(`Socket deleted`);
